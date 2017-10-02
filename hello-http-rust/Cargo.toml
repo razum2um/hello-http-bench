@@ -1,0 +1,9 @@
+[package]
+name = "hello-http-rust"
+version = "0.1.0"
+authors = ["Vlad Bokov <razum2um@mail.ru>"]
+
+[dependencies]
+
+[dependencies.iron]
+version = "0.4.*"
