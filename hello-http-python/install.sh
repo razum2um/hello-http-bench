@@ -1,1 +1,1 @@
-pip3 install aiohttp uvloop
+pip3 install uwsgi
