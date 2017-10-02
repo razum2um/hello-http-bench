@@ -5,7 +5,7 @@
 (defn handler [request]
   {:status 200
    :headers {"Content-Type" "text/plain"}
-   :body "Hello World"})
+   :body (str "Hello World " (System/currentTimeMillis))})
 
 (defn -main
   "I don't do a whole lot ... yet."

@@ -1,6 +1,7 @@
 import asyncio
-
+import time
 import uvloop
+
 from aiohttp import web
 
 def create_app(argv=None):
@@ -11,6 +12,6 @@ def create_app(argv=None):
     return app
 
 async def hello_world(request: web.Request) -> web.Response:
-	return web.Response(body=b'Hello world', content_type='text/plain')
+	return web.Response(body='Hello world %s' % int(round(time.time() * 1000)), content_type='text/plain')
 
 web.run_app(create_app(), port=8287)

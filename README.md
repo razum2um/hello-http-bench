@@ -24,6 +24,27 @@ Requests/sec:  80667.94
 Transfer/sec:     11.08MB
 ```
 
+## Ruby
+
+> Ruby 2.3.4, puma 3.10.0
+
+```
+gem install puma
+puma -t 8:50
+```
+
+```
+$ wrk http://localhost:9292/                                                                                                                                                                         [ruby-2.3.4]
+Running 10s test @ http://localhost:9292/
+  2 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   465.06us  284.39us   4.59ms   70.31%
+    Req/Sec    11.17k   744.21    12.19k    79.21%
+  224447 requests in 10.10s, 18.62MB read
+Requests/sec:  22223.90
+Transfer/sec:      1.84M
+```
+
 ## Rust
 
 > rust 1.22.0-nightly (f1b5225e8 2017-10-01), iron 0.4.0
