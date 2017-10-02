@@ -51,18 +51,17 @@ Transfer/sec:      1.77MB
 
 ```
 cd hello-http-python
-pip3 install aiohttp
+pip3 install aiohttp uvloop
 python3 hello-python-http.py
 ```
 
 ```
-$ wrk http://localhost:8287/                                                                                                                                                                         [ruby-2.3.4]
 Running 10s test @ http://localhost:8287/
   2 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.44ms  100.52us   6.60ms   94.20%
-    Req/Sec     3.49k    42.91     3.58k    77.72%
-  70152 requests in 10.10s, 9.83MB read
-Requests/sec:   6945.43
-Transfer/sec:      0.97MB
+    Latency     1.31ms   79.26us   2.49ms   84.41%
+    Req/Sec     3.81k    50.95     3.94k    80.20%
+  76504 requests in 10.10s, 10.73MB read
+Requests/sec:   7574.73
+Transfer/sec:      1.06MB
 ```
