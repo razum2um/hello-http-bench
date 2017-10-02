@@ -1,7 +1,10 @@
 # Hello World via HTTP
 
-tested with `wrk http://localhost:.../`
-hardware: i7-6700k@4Ghz, DDR4-2400Mhz
+All servers configured to have 1 thread handling requests
+
+Tested with `wrk -t 1 http://localhost:.../`
+
+Hardware: i7-6700k@4Ghz, DDR4-2400Mhz
 
 ## Clojure
 
@@ -13,15 +16,15 @@ java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar
 ```
 
 ```
-$ wrk http://localhost:8288/                                                                                                                                                                         [ruby-2.3.4]
+$ wrk -t 1 http://localhost:8288/                                                                                                                                                                                     [ruby-2.3.4]
 Running 10s test @ http://localhost:8288/
-  2 threads and 10 connections
+  1 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     4.82ms   21.43ms 157.11ms   94.90%
-    Req/Sec    41.35k     6.58k   62.10k    90.21%
-  808215 requests in 10.02s, 110.99MB read
-Requests/sec:  80667.94
-Transfer/sec:     11.08MB
+    Latency   507.13us    3.86ms  80.25ms   99.01%
+    Req/Sec    55.71k    14.89k   65.27k    83.17%
+  559264 requests in 10.10s, 84.27MB read
+Requests/sec:  55373.97
+Transfer/sec:      8.34MB
 ```
 
 ## Ruby
@@ -30,19 +33,19 @@ Transfer/sec:     11.08MB
 
 ```
 gem install puma
-puma -t 8:50
+puma -t 1:1
 ```
 
 ```
-$ wrk http://localhost:9292/                                                                                                                                                                         [ruby-2.3.4]
+$ wrk -t 1 http://localhost:9292/                                                                                                                                                                                     [ruby-2.3.4]
 Running 10s test @ http://localhost:9292/
-  2 threads and 10 connections
+  1 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   465.06us  284.39us   4.59ms   70.31%
-    Req/Sec    11.17k   744.21    12.19k    79.21%
-  224447 requests in 10.10s, 18.62MB read
-Requests/sec:  22223.90
-Transfer/sec:      1.84M
+    Latency    42.38us   15.67us   1.37ms   89.26%
+    Req/Sec    22.92k   551.38    23.66k    89.11%
+  230278 requests in 10.10s, 19.11MB read
+Requests/sec:  22800.95
+Transfer/sec:      1.89MB
 ```
 
 ## Rust
@@ -55,15 +58,15 @@ cargo run
 ```
 
 ```
-$ wrk http://localhost:8286/                                                                                                                                                                         [ruby-2.3.4]
+$ wrk -t 1 http://localhost:8286/                                                                                                                                                                                     [ruby-2.3.4]
 Running 10s test @ http://localhost:8286/
-  2 threads and 10 connections
+  1 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.64ms    6.58ms 124.94ms   96.70%
-    Req/Sec     8.26k     0.94k   10.76k    66.34%
-  165884 requests in 10.10s, 17.88MB read
-Requests/sec:  16425.12
-Transfer/sec:      1.77MB
+    Latency     1.53ms    5.69ms 122.01ms   96.35%
+    Req/Sec    16.51k   417.92    16.93k    95.05%
+  165805 requests in 10.10s, 19.61MB read
+Requests/sec:  16417.27
+Transfer/sec:      1.94MB
 ```
 
 ## Python (aiohttp)
@@ -77,12 +80,13 @@ python3 hello-python-http.py
 ```
 
 ```
+$ wrk -t 1 http://localhost:8287/                                                                                                                                                                                     [ruby-2.3.4]
 Running 10s test @ http://localhost:8287/
-  2 threads and 10 connections
+  1 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.31ms   79.26us   2.49ms   84.41%
-    Req/Sec     3.81k    50.95     3.94k    80.20%
-  76504 requests in 10.10s, 10.73MB read
-Requests/sec:   7574.73
-Transfer/sec:      1.06MB
+    Latency     1.51ms   82.95us   2.88ms   89.72%
+    Req/Sec     6.57k    87.94     6.69k    82.00%
+  65421 requests in 10.00s, 10.04MB read
+Requests/sec:   6540.52
+Transfer/sec:      1.00MB
 ```

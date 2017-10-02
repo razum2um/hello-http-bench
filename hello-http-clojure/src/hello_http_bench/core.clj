@@ -8,7 +8,7 @@
    :body (str "Hello World " (System/currentTimeMillis))})
 
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
   (println "Listening on 8288")
-  (jetty/run-jetty handler {:port 8288}))
+  ;; Cannot max=1: Insufficient threads: max=1 < needed(acceptors=1 + selectors=4 + request=1)
+  (jetty/run-jetty handler {:port 8288 :min-threads 1 :max-threads 6}))
