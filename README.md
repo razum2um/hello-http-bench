@@ -111,9 +111,9 @@ $ wrk -t 1 http://localhost:8288/
 Running 10s test @ http://localhost:8288/
   1 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   280.86us  251.20us  12.52ms   98.26%
-    Req/Sec    37.85k     4.69k   42.98k    80.20%
-  380347 requests in 10.10s, 47.88MB read
-Requests/sec:  37658.56
-Transfer/sec:      4.74MB
+    Latency   269.32us  189.97us   6.29ms   99.11%
+    Req/Sec    38.78k     4.70k   43.06k    79.21%
+  389421 requests in 10.10s, 49.02MB read
+Requests/sec:  38558.08
+Transfer/sec:      4.85MB
 ```
