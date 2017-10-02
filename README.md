@@ -1,5 +1,7 @@
 # Hello World via HTTP
 
+Some Clojure performance tuning (up to 3x times faster than in everyone's tutorial!)
+
 All servers configured to have 1 thread handling requests
 
 Tested with `wrk -t 1 http://localhost:.../`
@@ -99,10 +101,10 @@ Transfer/sec:      2.57MB
 ```
 
 
-### Balance of ugly, but high-level and performant implementation (default in uberjar)
+### Balance of ugly, but high-level and performant implementation
 
 ```
-java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar
+java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar handler
 ```
 
 ```
@@ -116,4 +118,24 @@ Running 10s test @ http://localhost:8288/
   454878 requests in 10.10s, 57.26MB read
 Requests/sec:  45037.47
 Transfer/sec:      5.67MB
+```
+
+
+### Same as handler above + lazy ring-request parsing (default in uberjar)
+
+```
+java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar
+```
+
+```
+$ wrk -t 1 http://localhost:8288/
+
+Running 10s test @ http://localhost:8288/
+  1 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   214.24us  198.50us   8.06ms   99.14%
+    Req/Sec    49.36k     5.90k   53.99k    84.00%
+  490842 requests in 10.00s, 61.79MB read
+Requests/sec:  49083.45
+Transfer/sec:      6.18MB
 ```
