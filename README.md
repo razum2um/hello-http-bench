@@ -4,7 +4,52 @@ All servers configured to have 1 thread handling requests
 
 Tested with `wrk -t 1 http://localhost:.../`
 
-Hardware: i7-6700k@4Ghz, DDR4-2400Mhz
+Hardware: Ubuntu Trusty, i7-3770@3.40GHz
+
+## Rust
+
+> rust 1.22.0-nightly (f1b5225e8 2017-10-01), iron 0.4.0
+
+```
+cd hello-http-rust
+cargo build --release
+./target/release/hello-http-rust
+```
+
+```
+$ wrk -t 1 http://localhost:8286/
+
+Running 10s test @ http://localhost:8286/
+  1 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   217.77us    0.97ms  24.04ms   97.24%
+    Req/Sec   104.30k    10.05k  119.89k    69.31%
+  1047663 requests in 10.10s, 123.89MB read
+Requests/sec: 103730.81
+Transfer/sec:     12.27MB
+```
+
+## Ruby
+
+> Ruby 2.4.1, puma 3.10.0
+
+```
+gem install puma
+puma -t 1:1 -q
+```
+
+```
+$ wrk -t 1 http://localhost:9292/
+
+Running 10s test @ http://localhost:9292/
+  1 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    52.48us   46.34us   4.49ms   99.66%
+    Req/Sec    19.09k   620.84    20.07k    69.00%
+  189876 requests in 10.00s, 15.75MB read
+Requests/sec:  18987.04
+Transfer/sec:      1.58MB
+```
 
 ## Clojure
 
@@ -16,77 +61,39 @@ java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar
 ```
 
 ```
-$ wrk -t 1 http://localhost:8288/                                                                                                                                                                                     [ruby-2.3.4]
+$ wrk -t 1 http://localhost:8288/
+
 Running 10s test @ http://localhost:8288/
   1 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   507.13us    3.86ms  80.25ms   99.01%
-    Req/Sec    55.71k    14.89k   65.27k    83.17%
-  559264 requests in 10.10s, 84.27MB read
-Requests/sec:  55373.97
-Transfer/sec:      8.34MB
+    Latency     7.37ms   15.85ms 151.76ms   87.46%
+    Req/Sec    15.87k    13.22k   35.00k    64.65%
+  157490 requests in 10.01s, 23.73MB read
+Requests/sec:  15738.32
+Transfer/sec:      2.37MB
 ```
 
-## Ruby
 
-> Ruby 2.3.4, puma 3.10.0
+## Python
 
-```
-gem install puma
-puma -t 1:1
-```
-
-```
-$ wrk -t 1 http://localhost:9292/                                                                                                                                                                                     [ruby-2.3.4]
-Running 10s test @ http://localhost:9292/
-  1 threads and 10 connections
-  Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    42.38us   15.67us   1.37ms   89.26%
-    Req/Sec    22.92k   551.38    23.66k    89.11%
-  230278 requests in 10.10s, 19.11MB read
-Requests/sec:  22800.95
-Transfer/sec:      1.89MB
-```
-
-## Rust
-
-> rust 1.22.0-nightly (f1b5225e8 2017-10-01), iron 0.4.0
-
-```
-cd hello-http-rust
-cargo run
-```
-
-```
-$ wrk -t 1 http://localhost:8286/                                                                                                                                                                                     [ruby-2.3.4]
-Running 10s test @ http://localhost:8286/
-  1 threads and 10 connections
-  Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.53ms    5.69ms 122.01ms   96.35%
-    Req/Sec    16.51k   417.92    16.93k    95.05%
-  165805 requests in 10.10s, 19.61MB read
-Requests/sec:  16417.27
-Transfer/sec:      1.94MB
-```
-
-## Python (aiohttp)
-
-> python 3.6.1, aiohttp 2.2.5
+> python 3.4.3, uwsgi 2.0.15
 
 ```
 cd hello-http-python
-pip3 install aiohttp uvloop
-python3 hello-python-http.py
+pip3 install uswgi
+./bin/uwsgi -L --http :8287 -p 1 --wsgi-file hello-http-python.py
 ```
 
 ```
-$ wrk -t 1 http://localhost:8287/                                                                                                                                                                                     [ruby-2.3.4]
+$ wrk -t 1 http://localhost:8287/
+
 Running 10s test @ http://localhost:8287/
   1 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.51ms   82.95us   2.88ms   89.72%
-    Req/Sec     6.57k    87.94     6.69k    82.00%
-  65421 requests in 10.00s, 10.04MB read
-Requests/sec:   6540.52
-Transfer/sec:      1.00MB
+    Latency   734.08us  531.56us  28.24ms   98.41%
+    Req/Sec    10.12k     2.69k   12.49k    92.86%
+  28211 requests in 10.02s, 1.88MB read
+  Socket errors: connect 10, read 28211, write 0, timeout 0
+Requests/sec:   2815.94
+Transfer/sec:    192.50KB
 ```
