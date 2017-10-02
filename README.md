@@ -1,7 +1,5 @@
 # Hello World via HTTP
 
-Some Clojure performance tuning (up to 4x times faster than in everyone's tutorial!)
-
 All servers configured to have 1 thread handling requests
 
 Tested with `wrk -t 1 http://localhost:.../`
