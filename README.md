@@ -1,6 +1,6 @@
 # Hello World via HTTP
 
-Some Clojure performance tuning (up to 3x times faster than in everyone's tutorial!)
+Some Clojure performance tuning (up to 4x times faster than in everyone's tutorial!)
 
 All servers configured to have 1 thread handling requests
 
@@ -55,13 +55,13 @@ Transfer/sec:      1.58MB
 
 ## Clojure
 
-> java 1.8.0_141, clojure 1.8.0, ring-jetty-1.6.2
+> java 1.8.0_141, clojure 1.8.0, ring-1.6.2, undertow-1.4.20
 
 ```
 lein uberjar
 ```
 
-### Tutorial version
+### Tutorial version with jetty
 
 ```
 java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar tutorial
@@ -120,11 +120,10 @@ Requests/sec:  45037.47
 Transfer/sec:      5.67MB
 ```
 
-
 ### Same as handler above + lazy ring-request parsing (default in uberjar)
 
 ```
-java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar
+java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar default
 ```
 
 ```
@@ -138,4 +137,21 @@ Running 10s test @ http://localhost:8288/
   490842 requests in 10.00s, 61.79MB read
 Requests/sec:  49083.45
 Transfer/sec:      6.18MB
+```
+
+```
+java -jar target/uberjar/hello-http-bench-0.1.0-SNAPSHOT-standalone.jar default undertow
+```
+
+```
+$ wrk -t 1 http://localhost:8288/
+
+Running 10s test @ http://localhost:8288/
+  1 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.08ms    3.55ms  46.01ms   93.14%
+    Req/Sec    70.88k     6.13k   84.35k    69.00%
+  704280 requests in 10.00s, 83.96MB read
+Requests/sec:  70425.71
+Transfer/sec:      8.40MB
 ```
