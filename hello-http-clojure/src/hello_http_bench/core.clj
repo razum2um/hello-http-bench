@@ -3,6 +3,7 @@
             [ring.core.protocols :as protocols]
             [ring.util.servlet :as servlet]
             [lazy-map.core :as lazy-map]
+            [ring.adapter.undertow :as undertow]
             [clojure.java.io :as io])
   (:import [javax.servlet.http HttpServlet HttpServletRequest HttpServletResponse])
   (:gen-class))
@@ -66,9 +67,10 @@
 (defn -main
   [& args]
   ;; Cannot max=1: Insufficient threads: max=1 < needed(acceptors=1 + selectors=4 + request=1)
-  (let [opts {:send-server-version? false :port 8288 :min-threads 1 :max-threads 6}]
+  (let [opts {:send-server-version? false :port 8288 :min-threads 1 :max-threads 6}
+        adapter #'undertow/run-undertow]
     (if-let [app (some-> args first (->> (str "hello-http-bench.core/")) symbol resolve)]
       (do (println "Listening" app "on 8288")
-          (jetty/run-jetty app opts))
+          (adapter app opts))
       (do (println "Listening using handler & lazy-ring on 8288")
-          (with-lazy-ring-request (jetty/run-jetty #'handler opts))))))
+          (with-lazy-ring-request (adapter #'handler opts))))))
