@@ -4,7 +4,7 @@
             [clojure.java.io :as io])
   (:gen-class))
 
-(def prefix "Hello World ")
+(def #^String prefix "Hello World ")
 
 ;; naive, straight from wiki https://github.com/ring-clojure/ring/wiki/Getting-Started
 (defn tutorial [request]
@@ -20,13 +20,12 @@
    :body (str prefix (System/currentTimeMillis))})
 
 ;; don't allocate full body string
-(def hello-input (-> prefix .getBytes))
 (defrecord TimedResponse [time])
 (extend-protocol protocols/StreamableResponseBody
   TimedResponse
   (write-body-to-stream [body _ ^java.io.OutputStream output-stream]
     (with-open [out output-stream]
-      (.write out hello-input)
+      (.write out (-> ^String prefix .getBytes))
       (.write out (-> body :time str .getBytes)))))
 (defn handler [request]
   {:status 200

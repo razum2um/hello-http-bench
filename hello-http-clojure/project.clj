@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [ring "1.6.2"]]
+  :global-vars {*warn-on-reflection* true}
   :main ^:skip-aot hello-http-bench.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
