@@ -72,28 +72,3 @@ Running 10s test @ http://localhost:8288/
 Requests/sec:  15738.32
 Transfer/sec:      2.37MB
 ```
-
-
-## Python
-
-> python 3.4.3, uwsgi 2.0.15
-
-```
-cd hello-http-python
-pip3 install uswgi
-./bin/uwsgi -L --http :8287 -p 1 --wsgi-file hello-http-python.py
-```
-
-```
-$ wrk -t 1 http://localhost:8287/
-
-Running 10s test @ http://localhost:8287/
-  1 threads and 10 connections
-  Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   734.08us  531.56us  28.24ms   98.41%
-    Req/Sec    10.12k     2.69k   12.49k    92.86%
-  28211 requests in 10.02s, 1.88MB read
-  Socket errors: connect 10, read 28211, write 0, timeout 0
-Requests/sec:   2815.94
-Transfer/sec:    192.50KB
-```
