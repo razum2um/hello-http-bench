@@ -66,10 +66,9 @@
 (defn -main
   [& args]
   ;; Cannot max=1: Insufficient threads: max=1 < needed(acceptors=1 + selectors=4 + request=1)
-  (some-> "ring.util.servlet/build-request-map" symbol resolve println)
-
-  (if-let [app (some-> args first (->> (str "hello-http-bench.core/")) symbol resolve)]
-    (do (println "Listening" app "on 8288")
-        (jetty/run-jetty app {:port 8288 :min-threads 1 :max-threads 6}))
-    (do (println "Listening using handler & lazy-ring on 8288")
-        (with-lazy-ring-request (jetty/run-jetty #'handler {:port 8288 :min-threads 1 :max-threads 6})))))
+  (let [opts {:send-server-version? false :port 8288 :min-threads 1 :max-threads 6}]
+    (if-let [app (some-> args first (->> (str "hello-http-bench.core/")) symbol resolve)]
+      (do (println "Listening" app "on 8288")
+          (jetty/run-jetty app opts))
+      (do (println "Listening using handler & lazy-ring on 8288")
+          (with-lazy-ring-request (jetty/run-jetty #'handler opts))))))
