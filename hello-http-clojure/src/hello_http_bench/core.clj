@@ -31,6 +31,12 @@
     (with-open [out output-stream]
       (.write out (-> ^String prefix .getBytes))
       (.write out (-> body :time str .getBytes)))))
+(extend-protocol undertow/RespondBody
+  TimedResponse
+  (respond [body ^io.undertow.server.HttpServerExchange exchange]
+    (with-open [out (.getOutputStream exchange)]
+      (.write out (-> ^String prefix .getBytes))
+      (.write out (-> body :time str .getBytes)))))
 
 (defn handler [request]
   {:status 200
@@ -68,9 +74,9 @@
   [& args]
   ;; Cannot max=1: Insufficient threads: max=1 < needed(acceptors=1 + selectors=4 + request=1)
   (let [opts {:send-server-version? false :port 8288 :min-threads 1 :max-threads 6}
-        adapter #'undertow/run-undertow]
+        adapter (if (some-> args second (= "undertow")) #'undertow/run-undertow #'jetty/run-jetty)]
     (if-let [app (some-> args first (->> (str "hello-http-bench.core/")) symbol resolve)]
-      (do (println "Listening" app "on 8288")
+      (do (println "Listening" app "on 8288 adapter" adapter)
           (adapter app opts))
-      (do (println "Listening using handler & lazy-ring on 8288")
+      (do (println "Listening using handler & lazy-ring on 8288 adapter" adapter)
           (with-lazy-ring-request (adapter #'handler opts))))))
